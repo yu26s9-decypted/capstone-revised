@@ -1,53 +1,57 @@
 package Models;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
-    private LocalDate date;
-    private LocalTime time;
-    private String description;
-    private String vendor;
-    private double amount;
-    private DateTimeFormatter formatter;
-    private String transactionType;
-    private String greenTextColor;
-    private String redTextColor;
 
-    public Transaction(LocalDate date, LocalTime time, String description, String vendor, double amount) {
-        this.date = date;
-        this.time = time;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_id")
+    private int transactionId;
+    @Column(name = "description")
+    private String description;
+    @Column(name = "vendor")
+    private String vendor;
+    @Column(name = "amount")
+    private double amount;
+    @Column(name = "transaction_type")
+    private String transactionType;
+    @Column(name = "date")
+    private LocalDate date;
+
+    public Transaction(String description, String vendor, double amount) {
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
-        formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-        greenTextColor = "\u001B[32m";
-        redTextColor = "\u001B[31m";
     }
 
-    public void setType(String transactionType){
+    public Transaction() {
+    }
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(int transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public void setType(String transactionType) {
         this.transactionType = transactionType;
     }
 
-    public String getTransactionType(){
+    public String getTransactionType() {
         return transactionType;
     }
 
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public LocalTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
     }
 
     public String getDescription() {
@@ -70,23 +74,15 @@ public class Transaction {
         return amount;
     }
 
-    public String toStringWriter(){
-        return String.format("%s|%s|%s|%s|%.2f" , getDate().toString(),formatter.format(getTime()),getDescription(),getVendor(),getAmount());
-    }
-
     public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public String toString(){
-        String transactionString;
-        if(amount < 0){
-            transactionString = String.format(" %-12s | %-10s | %-25s | %-20s | "+redTextColor+"%10.2f" , getDate().toString(),formatter.format(getTime()),getDescription(),getVendor(),getAmount());
-        }else {
-            transactionString = String.format(" %-12s | %-10s | %-25s | %-20s | "+greenTextColor+"%10.2f" , getDate().toString(),formatter.format(getTime()),getDescription(),getVendor(),getAmount());
+    public LocalDate getDate() {
+        return date;
+    }
 
-        }
-
-        return transactionString;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }

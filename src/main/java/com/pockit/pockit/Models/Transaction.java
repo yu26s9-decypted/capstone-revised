@@ -1,4 +1,4 @@
-package Models;
+package com.pockit.pockit.Models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

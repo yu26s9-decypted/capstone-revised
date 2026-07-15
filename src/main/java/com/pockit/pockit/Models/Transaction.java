@@ -1,4 +1,4 @@
-package Models;
+package com.pockit.pockit.Models;
 
 import jakarta.persistence.*;
 

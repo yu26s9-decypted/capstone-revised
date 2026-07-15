@@ -1,7 +1,7 @@
-package Services;
+package com.pockit.pockit.Services;
 
-import Models.Transaction;
-import Repositories.TransactionRepository;
+import com.pockit.pockit.Models.Transaction;
+import com.pockit.pockit.Repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

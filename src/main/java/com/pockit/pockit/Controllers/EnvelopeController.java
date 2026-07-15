@@ -2,6 +2,7 @@ package com.pockit.pockit.Controllers;
 
 import com.pockit.pockit.Models.Envelope;
 import com.pockit.pockit.Services.EnvelopeService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,9 @@ import java.util.List;
 @RequestMapping("/api/envelopes")
 public class EnvelopeController {
 
+    public record AllocateRequest(BigDecimal amount) {
+    }
+
     private final EnvelopeService envelopeService;
 
     public EnvelopeController(EnvelopeService envelopeService) {
@@ -20,33 +24,40 @@ public class EnvelopeController {
 
     @GetMapping
     public List<Envelope> getAllEnvelopes() {
-        //todo backs the Envelopes grid
         return envelopeService.getAllEnvelopes();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Envelope> getEnvelopeById(@PathVariable Long id) {
-        //todo
-        return ResponseEntity.notFound().build();
+        return envelopeService.getEnvelopeById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Envelope> createEnvelope(@RequestBody Envelope envelope) {
-        //todo backs "Add envelope" -- 201 with created envelope
-        return ResponseEntity.notFound().build();
+        Envelope created = envelopeService.createEnvelope(envelope);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEnvelope(@PathVariable Long id) {
-        //todo
+        if (envelopeService.deleteEnvelopeById(id)) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/{id}/allocate")
     public ResponseEntity<Envelope> allocate(@PathVariable Long id,
-                                             @RequestBody BigDecimal amount) {
-        //todo for Andy: backs "Move to envelope"
-        //todo 409 when the allocation would exceed the balance or go negative.
-        return ResponseEntity.notFound().build();
+                                             @RequestBody AllocateRequest request) {
+        return envelopeService.allocate(id, request.amount())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleInvalidAllocation(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 }

@@ -22,7 +22,7 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public Optional<Transaction> getTransactionById(int id) {
+    public Optional<Transaction> getTransactionById(Long id) {
         return transactionRepository.findById(id);
     }
 
@@ -30,18 +30,19 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    public Optional<Transaction> updateTransaction(int id, Transaction updated) {
+    public Optional<Transaction> updateTransaction(Long id, Transaction updated) {
         return transactionRepository.findById(id).map(existing -> {
             existing.setDescription(updated.getDescription());
             existing.setVendor(updated.getVendor());
             existing.setAmount(updated.getAmount());
             existing.setTransactionType(updated.getTransactionType());
-            existing.setDate(updated.getDate());
+            existing.setTransactionDate(updated.getTransactionDate());
+            existing.setTransactionTime(updated.getTransactionTime());
             return transactionRepository.save(existing);
         });
     }
 
-    public boolean deleteTransactionById(int id) {
+    public boolean deleteTransactionById(Long id) {
         if (transactionRepository.existsById(id)) {
             transactionRepository.deleteById(id);
             return true;

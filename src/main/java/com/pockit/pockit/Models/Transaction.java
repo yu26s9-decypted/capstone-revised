@@ -2,9 +2,10 @@ package com.pockit.pockit.Models;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "transactions")
@@ -12,46 +13,68 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "transaction_id")
-    private int transactionId;
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "transaction_date", nullable = false)
+    private LocalDate transactionDate;
+
+    @Column(name = "transaction_time", nullable = false)
+    private LocalTime transactionTime;
+
     @Column(name = "description")
     private String description;
+
     @Column(name = "vendor")
     private String vendor;
-    @Column(name = "amount")
-    private double amount;
-    @Column(name = "transaction_type")
-    private String transactionType;
-    @Column(name = "date")
-    private LocalDate date;
 
-    public Transaction(String description, String vendor, double amount) {
-        this.description = description;
-        this.vendor = vendor;
-        this.amount = amount;
-    }
+    @Column(name = "amount", nullable = false)
+    private BigDecimal amount;
+
+    @Column(name = "transaction_type", nullable = false)
+    private String transactionType;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Instant createdAt;
+
+    @Column(name = "updated_at", insertable = false, updatable = false)
+    private Instant updatedAt;
 
     public Transaction() {
     }
 
-    public int getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public void setType(String transactionType) {
+    public Transaction(String description, String vendor, BigDecimal amount,
+                       String transactionType, LocalDate transactionDate, LocalTime transactionTime) {
+        this.description = description;
+        this.vendor = vendor;
+        this.amount = amount;
         this.transactionType = transactionType;
+        this.transactionDate = transactionDate;
+        this.transactionTime = transactionTime;
     }
 
-    public String getTransactionType() {
-        return transactionType;
+    public Long getId() {
+        return id;
     }
 
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getTransactionDate() {
+        return transactionDate;
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = transactionDate;
+    }
+
+    public LocalTime getTransactionTime() {
+        return transactionTime;
+    }
+
+    public void setTransactionTime(LocalTime transactionTime) {
+        this.transactionTime = transactionTime;
     }
 
     public String getDescription() {
@@ -70,19 +93,27 @@ public class Transaction {
         this.vendor = vendor;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getTransactionType() {
+        return transactionType;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setTransactionType(String transactionType) {
+        this.transactionType = transactionType;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 }

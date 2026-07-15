@@ -4,6 +4,7 @@ import com.pockit.pockit.Models.Envelope;
 import com.pockit.pockit.Repositories.EnvelopeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,50 +21,50 @@ public class EnvelopeService {
     }
 
     public List<Envelope> getAllEnvelopes() {
-        //todo return every envelope for the dashboard grid
-        return List.of();
+        return envelopeRepository.findAll();
     }
 
     public Optional<Envelope> getEnvelopeById(Long id) {
-        //todo
-        return Optional.empty();
+        return envelopeRepository.findById(id);
     }
 
     public Envelope createEnvelope(Envelope envelope) {
-        //todo a new envelope starts allocated at 0.00, not at whatever the client sent
-        return null;
+        envelope.setId(null);
+        envelope.setAllocatedAmount(BigDecimal.ZERO);
+        return envelopeRepository.save(envelope);
     }
 
     public Optional<Envelope> updateEnvelope(Long id, Envelope updated) {
-        //todo name / icon / target only -- allocation changes go through allocate()
-        return Optional.empty();
+        return envelopeRepository.findById(id).map(existing -> {
+            existing.setName(updated.getName());
+            existing.setIcon(updated.getIcon());
+            existing.setTargetAmount(updated.getTargetAmount());
+            return envelopeRepository.save(existing);
+        });
     }
 
     public boolean deleteEnvelopeById(Long id) {
-        //todo deleting frees its allocation back to unallocated
+        if (envelopeRepository.existsById(id)) {
+            envelopeRepository.deleteById(id);
+            return true;
+        }
         return false;
     }
 
+    @Transactional
     public Optional<Envelope> allocate(Long id, BigDecimal amount) {
-        //todo move money in (positive) or back out (negative)
-        //todo reject if it would push allocatedAmount below 0
-        //todo reject if it would push total allocations above the account balance
-        return Optional.empty();
+        return envelopeRepository.findById(id).map(existing -> {
+            BigDecimal next = existing.getAllocatedAmount().add(amount);
+            if (next.compareTo(BigDecimal.ZERO) < 0) {
+                throw new IllegalArgumentException("Envelope %d only holds %s, cannot move out %s"
+                        .formatted(id, existing.getAllocatedAmount(), amount.abs()));
+            }
+            existing.setAllocatedAmount(next);
+            return envelopeRepository.save(existing);
+        });
     }
 
     public BigDecimal getTotalAllocated() {
-        //todo sum of allocatedAmount across all envelopes -- the "In envelopes" figure
-        return BigDecimal.ZERO;
-    }
-
-    public BigDecimal getAccountBalance() {
-        //todo derived, not stored: sum of CREDIT transactions minus sum of DEBIT transactions
-        //todo needs TransactionRepository injected here, or a shared BalanceService
-        return BigDecimal.ZERO;
-    }
-
-    public BigDecimal getUnallocated() {
-        //todo getAccountBalance() minus getTotalAllocated() -- the "To spend" figure
-        return BigDecimal.ZERO;
+        return envelopeRepository.sumAllocatedAmount();
     }
 }

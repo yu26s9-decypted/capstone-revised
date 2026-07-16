@@ -1,53 +1,41 @@
 Pockit
 
-What Is Pockit?
+What is this?
 
-Pockit is a digital version of the classic "envelope budgeting" method — the same trick people have used for decades to manage money by splitting cash into labeled envelopes for things like groceries, rent, and entertainment.
+You've probably heard of the envelope budgeting method — splitting your money into labeled envelopes for rent, groceries, savings, and so on, so you always know exactly how much you have for each. It's a simple, effective way to stay in control of your spending.
 
-Instead of physical cash and paper envelopes, Pockit lets you create digital envelopes for each part of your budget, set a target amount for each one, add money into them, and track every transaction that happens along the way.
+Pockit takes that same idea and brings it into an app. You create an envelope for whatever you're budgeting for, decide how much you're aiming to set aside, and Pockit keeps track of everything from there.
 
-Why Envelope Budgeting?
+Why We Built It This Way
 
-The idea is simple: instead of one big pool of money that's easy to lose track of, you divide your money into categories ahead of time. If your "Groceries" envelope has a goal of $200 and $150 has already been put into it, you instantly know how much more you can add or spend — no guessing, no accidental overspending.
+Budgets tend to fail for a simple reason: it's hard to get a real sense of how much money you have left when it's all sitting in one account as a single number. The balance looks fine — until an expense comes up and you're suddenly short.
 
-Pockit brings this method into an app so it's easier to track, update, and see clearly at any time.
+Envelope budgeting solves this by encouraging you to think in categories rather than one lump sum. Pockit makes that approach easy to manage without needing physical cash or envelopes.
 
 How It Works
 
-Pockit is built around two simple ideas:
+Pockit is built around two core ideas:
 
-Envelopes — each envelope represents a budget category, like Rent, Groceries, or Savings. Every envelope has:
+Envelopes represent your budget categories — rent, groceries, a savings goal, or anything else. Each envelope has a name, an icon for quick recognition, a target amount you're working toward, and a running total of how much has been allocated so far.
 
+Transactions record every movement of money — whether you're adding funds to an envelope or spending from it. Each transaction captures the date and time, a short description, the vendor involved, the amount, and whether it was money coming in or going out.
 
-A name and an icon, so it's easy to recognize at a glance
-A target amount — the goal you're trying to save or set aside
-An allocated amount — how much money has actually been put into it so far
+Together, these give you a clear and accurate picture of your finances: what you've set aside, what you've spent, and what's left.
 
-
-Transactions — every time money is spent or received, it's logged as a transaction. Each transaction records:
-
-
-The date and time it happened
-A short description of what it was for
-The vendor or place it happened at
-The amount of money involved
-What type of transaction it was (for example, an expense or income)
-
-
-Together, these let you:
+What You Can Do
 
 
 Create a new envelope for any budget category
-Set a savings or spending goal for that envelope
-Add money into an envelope over time
-Record every transaction, so there's a full history of where money went
-See at a glance how close each envelope is to its goal
+Set a savings or spending goal for it
+Add money to an envelope over time
+Log every transaction, so nothing gets lost
+Check in anytime to see exactly where each envelope stands
 
 
-Why This Matters
+The Bigger Picture
 
-Most people don't overspend because they're careless — they overspend because it's hard to see, in the moment, exactly how much money is really left for something. Pockit solves that by making a budget visual, organized, and always up to date, the same way physical envelopes used to — just without the cash.
+Most overspending doesn't come from carelessness — it comes from not being able to see, in the moment, how much is really left. Pockit removes that guesswork and gives people a clear, always-up-to-date view of their money.
 
-Project Status
+About This Project
 
-Pockit was built as part of our Capstone 1 coursework, applying real-world software development practices to build a functional, organized personal budgeting tool.
+Pockit was developed as our Capstone 1 project. Our goal was to build something practical — a tool people could genuinely use to manage their finances more effectively, not just a technical exercise.
